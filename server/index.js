@@ -22,11 +22,13 @@ const authRoute = require('./routes/auth');
 const userRoute = require('./routes/users');
 const matchesRoute = require('./routes/matches');
 const connectionsRoute = require('./routes/connections');
+const chatRoute = require('./routes/chat');
 
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
 app.use('/api/matches', matchesRoute);
 app.use('/api/connections', connectionsRoute);
+app.use('/api/chat', chatRoute);
 
 const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/smart-matrimony';
 console.log(`Attempting to connect to MongoDB at: ${mongoURI}`);

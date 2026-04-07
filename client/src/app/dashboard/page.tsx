@@ -4,6 +4,7 @@ import { useAuth } from "@/context/AuthContext"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { API_BASE_URL } from "@/lib/apiConfig"
+import ChatWindow from "@/components/ChatWindow"
 import { 
     Users, 
     Bell, 
@@ -17,7 +18,8 @@ import {
     XCircle,
     GraduationCap,
     Briefcase,
-    IndianRupee
+    IndianRupee,
+    MessageSquare
 } from "lucide-react"
 
 export default function DashboardPage() {
@@ -26,6 +28,8 @@ export default function DashboardPage() {
     const [notifications, setNotifications] = useState<any[]>([])
     const [showNotifs, setShowNotifs] = useState(false)
     const [activeTab, setActiveTab] = useState<'all' | 'connected' | 'requests'>('all')
+    const [chatUser, setChatUser] = useState<any>(null)
+    const [isChatOpen, setIsChatOpen] = useState(false)
     const router = useRouter()
 
     useEffect(() => {
@@ -33,8 +37,16 @@ export default function DashboardPage() {
         if (user) {
             fetchMatches()
             fetchNotifications()
+
+            // Serious Notifications: Poll every 15 seconds to catch new requests/messages
+            const interval = setInterval(() => {
+                fetchNotifications()
+                if (activeTab === 'all') fetchMatches() // Also update matches to see new 'connected' statuses
+            }, 15000)
+
+            return () => clearInterval(interval)
         }
-    }, [user, loading])
+    }, [user, loading, activeTab])
 
     const fetchMatches = async () => {
         try {
@@ -265,8 +277,14 @@ export default function DashboardPage() {
                                                 Request Sent
                                             </Button>
                                         ) : match.connectionStatus === 'accepted' ? (
-                                            <Button className="w-full bg-green-50 text-green-600 border border-green-200 rounded-xl h-10 text-xs font-bold gap-2">
-                                                <CheckCircle2 className="size-3" /> Connected
+                                            <Button 
+                                                onClick={() => {
+                                                    setChatUser(match)
+                                                    setIsChatOpen(true)
+                                                }}
+                                                className="w-full bg-green-600 hover:bg-green-700 text-white rounded-xl h-10 text-xs font-bold gap-2 shadow-lg shadow-green-100"
+                                            >
+                                                <MessageSquare className="size-4" /> Message
                                             </Button>
                                         ) : (
                                             <>
@@ -299,6 +317,13 @@ export default function DashboardPage() {
                     <br />© 2026 Smart Match Inc. All rights reserved.
                  </p>
             </footer>
+
+            <ChatWindow 
+                isOpen={isChatOpen} 
+                onClose={() => setIsChatOpen(false)} 
+                receiver={chatUser} 
+                currentUser={user} 
+            />
         </div>
     )
 }
