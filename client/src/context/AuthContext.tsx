@@ -8,10 +8,30 @@ interface User {
     username: string;
     email: string;
     accessToken: string;
-    personalDetails?: any;
-    education?: any;
-    professional?: any;
-    preferences?: any;
+    personalDetails?: {
+        fullname?: string;
+        age?: number;
+        gender?: string;
+        religion?: string;
+        location?: string;
+        bio?: string;
+        profilePic?: string;
+    };
+    education?: {
+        degree?: string;
+        field?: string;
+    };
+    professional?: {
+        jobTitle?: string;
+        income?: number;
+    };
+    preferences?: {
+        preferredAgeMin?: number;
+        preferredAgeMax?: number;
+        preferredReligion?: string;
+        preferredEducation?: string;
+        preferredGender?: string;
+    };
 }
 
 interface AuthContextType {

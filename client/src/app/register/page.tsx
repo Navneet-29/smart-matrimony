@@ -20,7 +20,6 @@ export default function RegisterPage() {
                 body: JSON.stringify(formData)
             })
             if (res.ok) {
-                const data = await res.json()
                 // Auto login after register for better UX
                 const loginRes = await fetch(`${API_BASE_URL}/api/auth/login`, {
                     method: "POST",
@@ -46,7 +45,7 @@ export default function RegisterPage() {
             <div className="w-full max-w-md bg-white p-10 rounded-2xl shadow-xl border border-pink-100">
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-extrabold text-pink-600 mb-2">Join Smart Match</h1>
-                    <p className="text-slate-500 text-sm">Your journey to find 'The One' starts here</p>
+                    <p className="text-slate-500 text-sm">Your journey to find &apos;The One&apos; starts here</p>
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="space-y-2">
