@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\client",
+    "\\client\\.next",
+    "\\client\\.next\\server",
+    "\\server",
+    "\\server\\middleware",
+    "\\server\\models",
+    "\\server\\routes"
+  ],
+  "SelectedNode": "\\client",
+  "PreviewInSolutionExplorer": false
+}
