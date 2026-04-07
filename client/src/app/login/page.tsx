@@ -4,16 +4,19 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useAuth } from "@/context/AuthContext"
+import { API_BASE_URL } from "@/lib/apiConfig";
 
 export default function LoginPage() {
     const [formData, setFormData] = useState({ email: "", password: "" })
+    const [error, setError] = useState("");
     const { login } = useAuth()
     const router = useRouter()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+        setError("");
         try {
-            const res = await fetch("http://localhost:5000/api/auth/login", {
+            const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)

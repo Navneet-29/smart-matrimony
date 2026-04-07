@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { useAuth } from "@/context/AuthContext"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { API_BASE_URL } from "@/lib/apiConfig"
 import { 
     Users, 
     Bell, 
@@ -37,7 +38,7 @@ export default function DashboardPage() {
 
     const fetchMatches = async () => {
         try {
-            const res = await fetch("http://localhost:5000/api/matches/suggested", {
+            const res = await fetch(`${API_BASE_URL}/api/matches/suggested`, {
                 headers: { "token": `Bearer ${user?.accessToken}` }
             })
             const data = await res.json()
@@ -47,7 +48,7 @@ export default function DashboardPage() {
 
     const fetchNotifications = async () => {
         try {
-            const res = await fetch("http://localhost:5000/api/connections/notifications", {
+            const res = await fetch(`${API_BASE_URL}/api/connections/notifications`, {
                 headers: { "token": `Bearer ${user?.accessToken}` }
             })
             const data = await res.json()
@@ -58,7 +59,7 @@ export default function DashboardPage() {
     const handleAction = async (matchId: string, action: 'connect' | 'accept' | 'reject') => {
         try {
             const endpoint = action === 'connect' ? `request/${matchId}` : action === 'accept' ? `accept/${matchId}` : `reject/${matchId}`
-            const res = await fetch(`http://localhost:5000/api/connections/${endpoint}`, {
+            const res = await fetch(`${API_BASE_URL}/api/connections/${endpoint}`, {
                 method: "POST",
                 headers: { "token": `Bearer ${user?.accessToken}` }
             })

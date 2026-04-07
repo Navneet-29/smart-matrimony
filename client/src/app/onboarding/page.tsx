@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useAuth } from "@/context/AuthContext"
 import { User, GraduationCap, Briefcase, Heart, MapPin, Camera, ChevronRight, ChevronLeft } from "lucide-react"
+import { API_BASE_URL } from "@/lib/apiConfig"
 
 export default function OnboardingPage() {
     const { user, login, loading } = useAuth()
@@ -69,7 +70,7 @@ export default function OnboardingPage() {
         }
 
         try {
-            const res = await fetch(`http://localhost:5000/api/users/${user._id}`, {
+            const res = await fetch(`${API_BASE_URL}/api/users/${user._id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

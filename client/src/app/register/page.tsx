@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useAuth } from "@/context/AuthContext"
+import { API_BASE_URL } from "@/lib/apiConfig"
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({ username: "", email: "", password: "" })
@@ -13,7 +14,7 @@ export default function RegisterPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         try {
-            const res = await fetch("http://localhost:5000/api/auth/register", {
+            const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
@@ -21,7 +22,7 @@ export default function RegisterPage() {
             if (res.ok) {
                 const data = await res.json()
                 // Auto login after register for better UX
-                const loginRes = await fetch("http://localhost:5000/api/auth/login", {
+                const loginRes = await fetch(`${API_BASE_URL}/api/auth/login`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email: formData.email, password: formData.password })
